@@ -38,4 +38,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (backdrop) backdrop.hidden = true;
     });
   }
+
+  // Render MFE Angular Full dinamicamente com base na ENV
+  (async () => {
+    try {
+      const outlet = document.getElementById('primary-outlet');
+      const baseUrl =
+        (window.ENV && window.ENV.NG_FULL_BASE_URL) ? window.ENV.NG_FULL_BASE_URL : 'http://localhost:9400/';
+      const mod = await import(/* @vite-ignore */ `${baseUrl}mfe-ng-full.js`);
+      const ctx = await mod.render(outlet, { baseUrl });
+      // opcional: expor para debug (e eventual desmontagem manual)
+      window.__mfe_ng_full_ctx = ctx;
+    } catch (err) {
+      console.error('Falha ao carregar MFE Angular Full:', err);
+      const errEl = document.getElementById('page-preview-error');
+      if (errEl) {
+        errEl.textContent = 'Erro ao carregar MFE Angular Full. Verifique NG_FULL_BASE_URL e CORS (headers no MFE).';
+      }
+    }
+  })();
 });

@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "serve -l 9200 .",
-    "build": "node ./scripts/build-copy.mjs index.html app.js styles.css design-system.css importmap.json",
-    "vercel-build": "node ./scripts/build-copy.mjs index.html app.js styles.css design-system.css importmap.json",
+    "build": "node ./scripts/generate-env.mjs && node ./scripts/build-copy.mjs index.html app.js styles.css design-system.css importmap.json env.js",
+    "vercel-build": "node ./scripts/generate-env.mjs && node ./scripts/build-copy.mjs index.html app.js styles.css design-system.css importmap.json env.js",
     "bundle": "node esbuild.config.mjs"
   },
   "devDependencies": {
